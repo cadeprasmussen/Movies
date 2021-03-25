@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "Success";
+    ViewBag.Message = "You have successfully add the movie to the list!";
+}
+
+@model Hiltons_Movies.Models.Movies
+
+<div>
+    <ul>
+        @*Displaying the information that the user just entered into the form when the submission was successful and it was added to the list*@
+        <li>Category: @Model.Category</li>
+        <li>Title: @Model.Title</li>
+        <li>Year: @Model.Year</li>
+        <li>Director: @Model.Director</li>
+        <li>Rating: @Model.Rating</li>
+        <li>Edited: @Model.Edited</li>
+        <li>Lent To: @Model.LentTo</li>
+        <li>Notes: @Model.Notes</li>
+    </ul>
+</div>
+
+<div><a asp-action="MovieList">CLICK HERE</a> FOR FULL MOVIE LIST!</div>

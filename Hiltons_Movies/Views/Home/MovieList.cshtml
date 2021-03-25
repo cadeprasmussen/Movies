@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "Movie List";
+}
+
+@model MoviesViewModel
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "pageLength": 20,
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}
+
+<!--Including some additional libraries for paginated table-->
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!--One week worth of time slots hardcoded-->
+
+<div class="container">
+    <table class="table table-hover" id="dataTable">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Director</th>
+                <th>Rating</th>
+                <th>Edited</th>
+                <th>Lent To</th>
+                <th>Notes</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model.Movies)
+            {
+                @*Using an if statement to skip the movie when the title is Independence Day, because
+                    'as the “Most American Movie Ever Made” which is obviously not true'*@
+                @if (x.Title == "Independence Day") continue;
+                else
+                {
+                    <tr>
+                        <td>@x.Category</td>
+                        <td>@x.Title</td>
+                        <td>@x.Year</td>
+                        <td>@x.Director</td>
+                        <td>@x.Rating</td>
+                        @*Just mkaing the values of the boolean to come out as Yes or blank depending on the value of the input, being true or false*@
+                        @if (x.Edited == true)
+                        {
+                            <td>Yes</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@x.LentTo</td>
+                        <td>@x.Notes</td>
+                        <td>
+                            <form id="@x.MovieId" asp-action="EditMovie" method="get">
+                                <button class="btn-primary btn" type="submit">Edit</button>
+                                <input type="hidden" name="MovieId" value="@x.MovieId" />
+                            </form>
+                        </td>
+                        <td>
+                            <form id="@x.MovieId" asp-action="DeleteMovie">
+                                <button class="btn-danger btn" type="submit">Delete</button>
+                                <input type="hidden" name="MovieId" value="@x.MovieId"/>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
