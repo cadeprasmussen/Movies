@@ -28,6 +28,8 @@
 
 <!--One week worth of time slots hardcoded-->
 
+<div id="PlaceHolderHere"></div>
+
 <div class="container">
     <table class="table table-hover" id="dataTable">
         <thead>
@@ -37,9 +39,8 @@
                 <th>Year</th>
                 <th>Director</th>
                 <th>Rating</th>
-                <th>Edited</th>
-                <th>Lent To</th>
-                <th>Notes</th>
+                <th>Lent Out?</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -58,32 +59,44 @@
                         <td>@x.Year</td>
                         <td>@x.Director</td>
                         <td>@x.Rating</td>
-                        @*Just mkaing the values of the boolean to come out as Yes or blank depending on the value of the input, being true or false*@
-                        @if (x.Edited == true)
+                        <td>@if (x.LentTo != null)
                         {
-                            <td>Yes</td>
+                            <p>Yes</p>
                         }
-                        else
-                        {
-                            <td></td>
+                        else 
+                        { 
+                            <p></p>
                         }
-                        <td>@x.LentTo</td>
-                        <td>@x.Notes</td>
-                        <td>
-                            <form id="@x.MovieId" asp-action="EditMovie" method="get">
-                                <button class="btn-primary btn" type="submit">Edit</button>
-                                <input type="hidden" name="MovieId" value="@x.MovieId" />
-                            </form>
                         </td>
                         <td>
-                            <form id="@x.MovieId" asp-action="DeleteMovie">
-                                <button class="btn-danger btn" type="submit">Delete</button>
-                                <input type="hidden" name="MovieId" value="@x.MovieId"/>
-                            </form>
+                            <button type="button" class="btn btn-info"
+                                    data-toggle="ajax-modal"
+                                    data-target="#movieDetails"
+                                    data-url="@Url.Action($"MovieDetails/{x.MovieId}")" name="MovieId">
+                                Details
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                    data-toggle="ajax-modal"
+                                    data-target="#editMovie"
+                                    data-url="@Url.Action($"EditMovieModular/{x.MovieId}")" name="MovieId">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger"
+                                    data-toggle="ajax-modal"
+                                    data-target="#deleteMovieConfirm"
+                                    data-url="@Url.Action($"DeleteMovieModular/{x.MovieId}")" name="MovieId">
+                                Delete
+                            </button>                    
                         </td>
                     </tr>
                 }
-            }
+             }
         </tbody>
     </table>
 </div>
+
+<script src="~/js/site.js"></script>

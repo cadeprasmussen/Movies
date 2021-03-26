@@ -21,12 +21,12 @@ namespace Hiltons_Movies.Controllers
             context = con;
         }
 
-        public void RemoveMovieFromDb(int MovieId)
+/*        public void RemoveMovieFromDb(int MovieId)
         {
             var movie = context.Movies.FirstOrDefault(x => x.MovieId == MovieId);
             context.Movies.Remove(movie);
             context.SaveChanges();
-        }
+        }*/
 
         public IActionResult Index()
         {
@@ -57,35 +57,26 @@ namespace Hiltons_Movies.Controllers
             }
         }
 
-        public IActionResult DeleteMovie(int MovieId)
+/*        public IActionResult DeleteMovie(int MovieId)
         {
             RemoveMovieFromDb(MovieId);
             return View("MovieList", new MoviesViewModel
             {
                 Movies = context.Movies
             });
-        }
+        }*/
 
         [HttpGet]
-        public IActionResult EditMovie(int MovieId)
+        public IActionResult EditMovieModular(int MovieId)
         {
-            var film = context.Movies.Where(x => x.MovieId == MovieId).FirstOrDefault();
-            return View(film);
+            var movie = context.Movies.Where(x => x.MovieId == MovieId).FirstOrDefault();
+            return PartialView("EditMoviePartial", movie);
         }
 
         [HttpPost]
-        public IActionResult EditMovie(Movies movies, int MovieId)
+        public IActionResult EditMovieModular(Movies movie)
         {
-            var film = context.Movies.Where(x => x.MovieId == MovieId).FirstOrDefault();
-            film.Category = movies.Category;
-            film.Title = movies.Title;
-            film.Year = movies.Year;
-            film.Director = movies.Director;
-            film.Rating = movies.Rating;
-            film.Edited = movies.Edited;
-            film.LentTo = movies.LentTo;
-            film.Notes = movies.Notes;
-
+            context.Movies.Update(movie);
             context.SaveChanges();
 
             return View("MovieList", new MoviesViewModel
@@ -94,6 +85,48 @@ namespace Hiltons_Movies.Controllers
             });
         }
 
+        [HttpGet]
+        public IActionResult DeleteMovieModular(int MovieId)
+        {
+            var film = context.Movies.Where(x => x.MovieId == MovieId).FirstOrDefault();
+            return PartialView("DeleteMoviePartial", film);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMovieModular(Movies movie)
+        {
+            var film = context.Movies.Where(x => x.MovieId == movie.MovieId).FirstOrDefault();
+            context.Movies.Remove(film);
+            context.SaveChanges();
+
+            return View("MovieList", new MoviesViewModel
+            {
+                Movies = context.Movies
+            });
+        }
+
+        [HttpGet]
+        public IActionResult MovieDetails(int MovieId)
+        {
+            var film = context.Movies.Where(x => x.MovieId == MovieId).FirstOrDefault();
+
+            return PartialView("DetailPartialView", film);
+        }
+
+        //Changed for Modular Pop up Instead
+/*        [HttpPost]
+        public IActionResult EditMovie(Movies movies)
+        {
+            context.Movies.Update(movies);
+
+            context.SaveChanges();
+
+            return View("MovieList", new MoviesViewModel
+            {
+                Movies = context.Movies
+            });
+        }*/
+
         //Returning the podcast page, when the podcast navigation bar is clicked, or typed into URL
         public IActionResult MyPodcast()
         {
@@ -101,6 +134,7 @@ namespace Hiltons_Movies.Controllers
         }
 
         //Returning the movie liest page, when the movie list navigation bar is clicked, or typed into URL
+        [HttpGet("MovieList")]
         public IActionResult MovieList()
         {
             //Returning the view for Movie List with the Data from the Model of TempStorage, which is currently saving move list until app is killed

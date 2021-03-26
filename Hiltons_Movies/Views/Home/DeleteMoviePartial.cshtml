@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Movies
+
+<div class="modal fade" id="deleteMovieConfirm">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="deleteMovieConfirm">Delete Movie</h6>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form asp-action="DeleteMovieModular" method="post">
+                    <div>
+                        <input type="hidden" asp-for="@Model.MovieId" />
+                        <h5>
+                            Are you sure you would like to delete 
+                            <span class="text-info">@Model.Title</span> 
+                            from the list?
+                        </h5>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" data-save="modal">Delete</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

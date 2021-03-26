@@ -55,6 +55,18 @@ namespace Hiltons_Movies
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("modularedit",
+                    "Home/EditMovieModular/{movieId:int}",
+                    new { Controller = "Home", action = "EditMovieModular" });
+
+                endpoints.MapControllerRoute("modularDelete",
+                    "Home/DeleteMovieModular/{movieId:int}",
+                    new { controller = "Home", action = "DeleteMovieModular" });
+
+                endpoints.MapControllerRoute("movieDetails",
+                    "Home/MovieDetails/{movieId:int}",
+                    new { controller = "Home", action = "MovieDetails" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

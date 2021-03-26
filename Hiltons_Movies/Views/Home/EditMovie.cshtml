@@ -4,7 +4,7 @@
 <div>
     <form asp-action="EditMovie" method="post">
         <div class="form-group">
-            <input asp-for="MovieId" type="hidden" name="MovieId"/>
+            <input asp-for="@Model.MovieId" type="hidden" name="MovieId"/>
         </div>
         
         <div class="form-group">
@@ -17,7 +17,7 @@
             <input asp-for="Title"/>
         </div>
         <div class="form-group">
-            <label asp-for="Year">Director</label>
+            <label asp-for="Year">Year</label>
             <input asp-for="Year" />
         </div>
         <div>
